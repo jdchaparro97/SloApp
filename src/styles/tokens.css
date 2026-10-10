@@ -1,0 +1,57 @@
+/*
+  TOKENS DE DISEÑO — el único lugar para cambiar la estética.
+  Estilo neutro y provisorio: los componentes usan solo estas variables.
+*/
+:root {
+  /* Tipografía */
+  --font-body: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-display: var(--font-body);
+  --text-sm: 0.875rem;
+  --text-md: 1rem;
+  --text-lg: 1.25rem;
+  --text-xl: 1.75rem;
+  --text-2xl: 2.25rem;
+
+  /* Colores base */
+  --color-bg: #ffffff;
+  --color-surface: #f4f4f5;
+  --color-text: #18181b;
+  --color-text-muted: #52525b;
+  --color-border: #d4d4d8;
+  --color-primary: #1f4e9c;
+  --color-on-primary: #ffffff;
+
+  /* Estados */
+  --color-correct: #166534;
+  --color-correct-bg: #dcfce7;
+  --color-wrong: #b91c1c;
+  --color-wrong-bg: #fee2e2;
+  --color-locked: #a1a1aa;
+
+  /* Géneros: parte del método de enseñanza, se usan en toda la app */
+  --color-masc: #1d4ed8;
+  --color-fem: #c2410c;
+  --color-neut: #15803d;
+  --color-masc-bg: #dbeafe;
+  --color-fem-bg: #ffedd5;
+  --color-neut-bg: #dcfce7;
+
+  /* Formas */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-full: 999px;
+  --border-width: 1px;
+
+  /* Espaciado */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+
+  /* Medidas */
+  --content-max: 560px;
+  --tap-min: 44px;
+  --tabbar-height: 64px;
+}
