@@ -28,7 +28,8 @@ npm run preview  # probar la versión final (incluye modo offline)
 
 ## Estado
 
-- Unidad 1 (Saludos) completa con sus 5 secciones. Unidades 2–10 aparecen como "Próximamente".
+- Las 10 unidades completas, cada una con su regla nueva y sus 5 secciones (Descubrí, Frases, Diálogo, Práctica, Desafío).
+- Las opciones de los ejercicios se mezclan para que no se memoricen por posición.
 - Ayudas: calculadora de números, práctica de géneros y dual, pronunciación, tips de género, dual y casos.
 - Modo viaje con favoritas, disponible sin internet.
 - El audio usa la voz del dispositivo; si no tiene voz en esloveno, se muestra el texto.

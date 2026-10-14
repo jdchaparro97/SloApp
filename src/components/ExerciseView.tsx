@@ -53,6 +53,11 @@ function OptionsExercise({ exercise, selected, checked, onSelect }: {
 }) {
   const hasVoice = useSloveneVoice()
   const [showText, setShowText] = useState(false)
+  // Opciones mezcladas para que la respuesta no se memorice por posición (las de 2 opciones, tipo sí/no, quedan fijas).
+  const [order] = useState(() => {
+    const indexes = exercise.options.map((_, i) => i)
+    return indexes.length > 2 ? shuffle(indexes) : indexes
+  })
 
   return (
     <>
@@ -83,7 +88,8 @@ function OptionsExercise({ exercise, selected, checked, onSelect }: {
         </div>
       )}
       <div className="options">
-        {exercise.options.map((option, i) => {
+        {order.map((i) => {
+          const option = exercise.options[i]
           const state = checked ? (i === exercise.answer ? 'is-correct' : i === selected ? 'is-wrong' : '') : ''
           return (
             <button
