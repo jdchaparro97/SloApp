@@ -1,9 +1,10 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { ExerciseRunner } from '../components/ExerciseRunner'
 import { RuleCard } from '../components/RuleCard'
 import { SpeakButton } from '../components/SpeakButton'
 import { CHALLENGE_PASS, SECTION_ORDER, SECTION_TITLES, type Pair, type Rule, type Section, type SectionId } from '../data/types'
 import { findUnit } from '../data/units'
+import { buildSections } from '../lib/generate'
 import { completeSection, isSectionUnlocked, sectionKey, type Progress } from '../lib/progress'
 import { NotFound } from './NotFound'
 
@@ -16,9 +17,12 @@ interface Props {
 
 export function SectionScreen({ unitId, sectionId, progress, update }: Props) {
   const unit = findUnit(unitId)
-  const section = unit?.sections?.find((s) => s.id === sectionId)
-  // `attempt` reinicia la sección al reintentar.
+  // `attempt` reinicia la sección al reintentar, con preguntas nuevas.
   const [attempt, setAttempt] = useState(0)
+  const section = useMemo(
+    () => (unit ? buildSections(unit) : []).find((s) => s.id === sectionId),
+    [unit, sectionId, attempt],
+  )
   const [result, setResult] = useState<{ score: number; passed: boolean } | null>(null)
 
   if (!unit || !section || !isSectionUnlocked(unitId, section.id, progress)) {

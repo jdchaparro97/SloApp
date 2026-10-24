@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest'
+import { buildSections, examplesOf, vocabularyOf } from '../lib/generate'
 import { GENDER_WORDS } from './gender'
 import { TRAVEL_GROUPS } from './travel'
 import { SECTION_ORDER, type Exercise } from './types'
@@ -41,6 +42,56 @@ describe('unidades', () => {
           expect(problems).toEqual([])
         })
       }
+    })
+  }
+})
+
+/** Generador pseudoaleatorio con semilla, para que las pruebas sean repetibles. */
+function seeded(seed: number) {
+  return () => {
+    seed = (seed * 1664525 + 1013904223) % 4294967296
+    return seed / 4294967296
+  }
+}
+
+describe('contenido ampliado', () => {
+  for (const unit of UNITS) {
+    describe(`unidad ${unit.id}`, () => {
+      it('tiene al menos 20 palabras y 10 frases de ejemplo', () => {
+        expect(vocabularyOf(unit).length).toBeGreaterThanOrEqual(20)
+        expect(examplesOf(unit).length).toBeGreaterThanOrEqual(10)
+      })
+
+      it('no repite palabras ni traducciones (si no, habría dos opciones correctas)', () => {
+        const vocab = vocabularyOf(unit)
+        const repeated = (xs: string[]) => xs.filter((x, i) => xs.indexOf(x) !== i)
+        expect(repeated(vocab.map((v) => v.sl))).toEqual([])
+        expect(repeated(vocab.map((v) => v.es))).toEqual([])
+        expect(repeated(examplesOf(unit).map((e) => e.es))).toEqual([])
+      })
+
+      it('las secciones generadas son válidas y más largas', () => {
+        for (const seed of [1, 2, 3, 42, 99]) {
+          const sections = buildSections(unit, seeded(seed))
+          expect(sections.map((s) => s.id)).toEqual(SECTION_ORDER)
+          for (const section of sections) {
+            if (section.kind === 'discover') {
+              expect(section.items.length).toBeGreaterThanOrEqual(30)
+              continue
+            }
+            const problems = section.exercises.flatMap((ex, i) => exerciseProblems(ex).map((p) => `${section.id} #${i + 1}: ${p}`))
+            expect(problems).toEqual([])
+          }
+          const count = (id: string) => sections.find((s) => s.id === id)
+          const exercises = (id: string) => {
+            const s = count(id)
+            return s && s.kind === 'exercises' ? s.exercises.length : 0
+          }
+          expect(exercises('frases')).toBeGreaterThanOrEqual(14)
+          expect(exercises('practica')).toBeGreaterThanOrEqual(25)
+          expect(exercises('desafio')).toBe(15)
+        }
+      })
     })
   }
 })

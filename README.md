@@ -20,7 +20,7 @@ npm run preview  # probar la versión final (incluye modo offline)
 |---|---|
 | `src/styles/tokens.css` | **Toda la estética**: colores, tipografías, bordes, espacios. Cambiando este archivo se rediseña la app. |
 | `src/styles/base.css` | Estructura de los componentes (usa solo las variables de `tokens.css`). |
-| `src/data/` | Contenido: unidades, frases de viaje, palabras de géneros. Se puede revisar y corregir sin tocar código. |
+| `src/data/` | Contenido: unidades (`unit1.ts`…`unit10.ts`), vocabulario y ejemplos extra (`vocabulary.ts`), frases de viaje, palabras de géneros. Se puede revisar y corregir sin tocar código. |
 | `src/lib/numbers.ts` | Lógica de los números en esloveno (calculadora). |
 | `src/lib/progress.ts` | Progreso, desbloqueo de unidades, racha y favoritas (guardado en el dispositivo). |
 | `src/screens/` | Pantallas: Ruta, Unidad, Sección, Ayudas, Calculadora, Géneros, Viaje. |
@@ -29,6 +29,7 @@ npm run preview  # probar la versión final (incluye modo offline)
 ## Estado
 
 - Las 10 unidades completas, cada una con su regla nueva y sus 5 secciones (Descubrí, Frases, Diálogo, Práctica, Desafío).
+- Cada unidad tiene 20+ palabras y 10 frases de ejemplo (`src/data/vocabulary.ts`). Con ellas se generan más preguntas en cada intento (`src/lib/generate.ts`): Frases ~16, Práctica ~30, Desafío 15.
 - Las opciones de los ejercicios se mezclan para que no se memoricen por posición.
 - Ayudas: calculadora de números, práctica de géneros y dual, pronunciación, tips de género, dual y casos.
 - Modo viaje con favoritas, disponible sin internet.
