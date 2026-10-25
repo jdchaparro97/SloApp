@@ -6,7 +6,7 @@ export type Route =
   | { name: 'ruta' }
   | { name: 'unidad'; unitId: number }
   | { name: 'seccion'; unitId: number; section: string }
-  | { name: 'ayudas'; page?: string }
+  | { name: 'ayudas'; page?: string; sub?: string }
   | { name: 'viaje' }
 
 export function parseRoute(hash: string): Route {
@@ -16,7 +16,7 @@ export function parseRoute(hash: string): Route {
     const unitId = Number(second)
     return third ? { name: 'seccion', unitId, section: third } : { name: 'unidad', unitId }
   }
-  if (first === 'ayudas') return { name: 'ayudas', page: second }
+  if (first === 'ayudas') return { name: 'ayudas', page: second, sub: third }
   if (first === 'viaje') return { name: 'viaje' }
   return { name: 'ruta' }
 }

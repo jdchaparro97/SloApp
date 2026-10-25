@@ -31,7 +31,8 @@ npm run preview  # probar la versión final (incluye modo offline)
 - Las 10 unidades completas, cada una con su regla nueva y sus 5 secciones (Descubrí, Frases, Diálogo, Práctica, Desafío).
 - Cada unidad tiene 20+ palabras y 10 frases de ejemplo (`src/data/vocabulary.ts`). Con ellas se generan más preguntas en cada intento (`src/lib/generate.ts`): Frases ~16, Práctica ~30, Desafío 15.
 - Las opciones de los ejercicios se mezclan para que no se memoricen por posición.
-- Ayudas: calculadora de números, práctica de géneros y dual, pronunciación, tips de género, dual y casos.
+- Ayudas por tema (pronunciación, géneros, dual, números, casos, verbos): primero la explicación y al final la práctica. Buscador y reglas de cada unidad (`src/data/help.ts`).
+- Botón "?" en los ejercicios: muestra la regla de la unidad sin salir del ejercicio.
 - Modo viaje con favoritas, disponible sin internet.
 - El audio usa la voz del dispositivo; si no tiene voz en esloveno, se muestra el texto.
 - **El contenido en esloveno está pendiente de revisión por un hablante nativo.**

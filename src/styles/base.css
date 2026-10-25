@@ -137,3 +137,16 @@ th, td { text-align: left; padding: var(--space-2); border-bottom: var(--border-
 select { font: inherit; min-height: var(--tap-min); padding: var(--space-2); border-radius: var(--radius-md); border: var(--border-width) solid var(--color-border); }
 
 .notice { font-size: var(--text-sm); color: var(--color-text-muted); border: var(--border-width) dashed var(--color-border); border-radius: var(--radius-md); padding: var(--space-3); }
+
+/* Ayudas */
+.search-input { font: inherit; min-height: var(--tap-min); padding: var(--space-2) var(--space-3); border: var(--border-width) solid var(--color-border); border-radius: var(--radius-md); width: 100%; }
+.section-label { font-size: var(--text-sm); text-transform: uppercase; letter-spacing: 0.05em; color: var(--color-text-muted); }
+
+/* Ventana de ayuda sobre los ejercicios */
+.overlay { position: fixed; inset: 0; background: var(--color-overlay); display: flex; align-items: flex-end; justify-content: center; z-index: 10; }
+.sheet {
+  background: var(--color-bg);
+  width: 100%; max-width: var(--content-max); max-height: 85vh; overflow-y: auto;
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+  padding: var(--space-4); display: flex; flex-direction: column; gap: var(--space-3);
+}

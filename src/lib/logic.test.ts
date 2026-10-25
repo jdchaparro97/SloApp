@@ -11,6 +11,7 @@ import {
   visibleStreak,
 } from './progress'
 import { parseRoute } from './router'
+import { HELP_TOPICS, normalize, searchHelp } from '../data/help'
 
 describe('isCorrect', () => {
   const choice: Exercise = { kind: 'choice', prompt: '', options: ['a', 'b'], answer: 1 }
@@ -97,11 +98,40 @@ describe('parseRoute', () => {
     ['#/ruta', { name: 'ruta' }],
     ['#/unidad/1', { name: 'unidad', unitId: 1 }],
     ['#/unidad/1/frases', { name: 'seccion', unitId: 1, section: 'frases' }],
-    ['#/ayudas', { name: 'ayudas', page: undefined }],
-    ['#/ayudas/calculadora', { name: 'ayudas', page: 'calculadora' }],
+    ['#/ayudas', { name: 'ayudas', page: undefined, sub: undefined }],
+    ['#/ayudas/numeros', { name: 'ayudas', page: 'numeros', sub: undefined }],
+    ['#/ayudas/numeros/practicar', { name: 'ayudas', page: 'numeros', sub: 'practicar' }],
+    ['#/ayudas/unidad/3', { name: 'ayudas', page: 'unidad', sub: '3' }],
     ['#/viaje', { name: 'viaje' }],
     ['#/cualquier-cosa', { name: 'ruta' }],
   ])('%s', (hash, expected) => {
     expect(parseRoute(hash)).toEqual(expected)
+  })
+})
+
+describe('buscador de ayudas', () => {
+  const titles = (q: string) => searchHelp(q).map((r) => r.title)
+
+  it('encuentra temas por nombre y por palabra clave', () => {
+    expect(titles('dual')[0]).toBe('El dual')
+    expect(titles('acusativo')).toContain('Los 6 casos')
+    expect(titles('calculadora')).toContain('Números')
+  })
+
+  it('encuentra reglas de unidades', () => {
+    expect(titles('acusativo')).toContain('Unidad 4 · Acusativo')
+    expect(titles('locativo')).toContain('Unidad 5 · Locativo con v / na')
+  })
+
+  it('ignora tildes y "techitos"', () => {
+    expect(normalize('Č')).toBe('c')
+    expect(titles('č')).toContain('Pronunciación')
+    expect(titles('č')).not.toContain('Los 6 casos')
+    expect(titles('genero')).toContain('Géneros')
+  })
+
+  it('vacío no devuelve nada y cada tema tiene explicación', () => {
+    expect(searchHelp('  ')).toEqual([])
+    for (const t of HELP_TOPICS) expect(t.rule.body.length).toBeGreaterThan(0)
   })
 })

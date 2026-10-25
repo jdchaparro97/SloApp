@@ -27,6 +27,7 @@
   --color-wrong: #b91c1c;
   --color-wrong-bg: #fee2e2;
   --color-locked: #a1a1aa;
+  --color-overlay: rgb(0 0 0 / 0.45);
 
   /* Géneros: parte del método de enseñanza, se usan en toda la app */
   --color-masc: #1d4ed8;

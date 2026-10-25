@@ -26,7 +26,7 @@ export function App() {
       screen = <SectionScreen key={`${route.unitId}/${route.section}`} unitId={route.unitId} sectionId={route.section} progress={progress} update={update} />
       break
     case 'ayudas':
-      screen = <HelpScreen key={route.page} page={route.page} />
+      screen = <HelpScreen key={`${route.page}/${route.sub}`} page={route.page} sub={route.sub} />
       break
     case 'viaje':
       screen = <TravelScreen progress={progress} update={update} />

@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import { ExerciseRunner } from '../components/ExerciseRunner'
 import { RuleCard } from '../components/RuleCard'
+import { RuleHelpButton } from '../components/RuleHelpButton'
 import { SpeakButton } from '../components/SpeakButton'
 import { CHALLENGE_PASS, SECTION_ORDER, SECTION_TITLES, type Pair, type Rule, type Section, type SectionId } from '../data/types'
 import { findUnit } from '../data/units'
@@ -42,7 +43,10 @@ export function SectionScreen({ unitId, sectionId, progress, update }: Props) {
   return (
     <main className="screen">
       <a href={`#/unidad/${unitId}`} className="small">← Unidad {unitId}</a>
-      <h1>{SECTION_TITLES[section.id]}</h1>
+      <div className="spread">
+        <h1>{SECTION_TITLES[section.id]}</h1>
+        {unit.rule && section.id !== 'descubri' && <RuleHelpButton rule={unit.rule} />}
+      </div>
       {result ? (
         <SectionResult unitId={unitId} sectionId={section.id} score={result.score} passed={result.passed} onRetry={retry} />
       ) : (

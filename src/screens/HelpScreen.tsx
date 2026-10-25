@@ -1,48 +1,163 @@
-import type { ReactNode } from 'react'
+import { useState } from 'react'
 import { RuleCard } from '../components/RuleCard'
 import { SpeakButton } from '../components/SpeakButton'
 import { GENDER_TIPS } from '../data/gender'
+import { findHelpTopic, HELP_TOPICS, PRONUNCIATION, searchHelp, type HelpTopic } from '../data/help'
+import { findUnit, UNITS } from '../data/units'
 import { Calculator } from './Calculator'
 import { GenderSort } from './GenderSort'
 import { NotFound } from './NotFound'
 
-interface HelpPage {
-  id: string
-  title: string
-  description: string
-  render: () => ReactNode
+/**
+ * Ayudas, ordenadas por tema. Rutas:
+ *   #/ayudas                  índice con buscador
+ *   #/ayudas/<tema>           explicación → ejemplos → botón "Practicar"
+ *   #/ayudas/<tema>/practicar la práctica del tema
+ *   #/ayudas/unidad/<n>       regla de una unidad
+ */
+export function HelpScreen({ page, sub }: { page?: string; sub?: string }) {
+  if (!page) return <HelpIndex />
+  if (page === 'unidad') return <UnitRule unitId={Number(sub)} />
+  const topic = findHelpTopic(page)
+  if (!topic) return <NotFound />
+  if (sub === 'practicar' && topic.practice) return <TopicPractice topic={topic} />
+  if (sub) return <NotFound />
+  return <TopicPage topic={topic} />
 }
 
-// Contenido de referencia. Pendiente de revisión por un hablante nativo.
-const PRONUNCIATION = [
-  { letter: 'c', sound: 'como "ts" en "tsunami"', example: 'cesta (calle)' },
-  { letter: 'č', sound: 'como "ch" en "chau"', example: 'večer (noche)' },
-  { letter: 'š', sound: 'como "sh" en "show"', example: 'šola (escuela)' },
-  { letter: 'ž', sound: 'como la "y" de "yo" en Argentina', example: 'žaba (rana)' },
-  { letter: 'j', sound: 'como "i" en "hierro"', example: 'jutro (mañana)' },
-  { letter: 'h', sound: 'como una "j" suave', example: 'hvala (gracias)' },
-  { letter: 'l, v al final', sound: 'suelen sonar como "u"', example: 'bil (fue), lev (león)' },
-  { letter: 'r entre consonantes', sound: 'hace de vocal', example: 'trg (plaza)' },
-]
+function HelpIndex() {
+  const [query, setQuery] = useState('')
+  const results = searchHelp(query)
 
-const PAGES: HelpPage[] = [
-  {
-    id: 'calculadora',
-    title: 'Calculadora de números',
-    description: 'Escribí un número y mirá cómo se dice y cómo se forma.',
-    render: () => <Calculator />,
-  },
-  {
-    id: 'generos',
-    title: 'Practicar géneros y dual',
-    description: 'Clasificá palabras por género y elegí su forma dual.',
-    render: () => <GenderSort />,
-  },
-  {
-    id: 'pronunciacion',
-    title: 'Pronunciación',
-    description: 'Las letras que suenan distinto que en español.',
-    render: () => (
+  return (
+    <main className="screen">
+      <h1>Ayudas</h1>
+      <label className="stack">
+        <span className="muted small">Buscá un tema, una regla o una palabra</span>
+        <input
+          type="search"
+          className="search-input"
+          placeholder="Ej.: dual, acusativo, č"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+        />
+      </label>
+
+      {query.trim() ? (
+        <section className="stack" aria-label="Resultados">
+          {results.length === 0 ? (
+            <p className="notice">No encontramos nada con "{query}". Probá con otra palabra.</p>
+          ) : (
+            <ul className="list">
+              {results.map((r) => (
+                <li key={r.href}>
+                  <a href={r.href} className="list-item">
+                    <div>
+                      <h2>{r.title}</h2>
+                      <p className="small muted">{r.summary}</p>
+                    </div>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )}
+        </section>
+      ) : (
+        <>
+          <section className="stack">
+            <h2 className="section-label">Temas</h2>
+            <ul className="list">
+              {HELP_TOPICS.map((t) => (
+                <li key={t.id}>
+                  <a href={`#/ayudas/${t.id}`} className="list-item">
+                    <div>
+                      <h2>{t.title}</h2>
+                      <p className="small muted">{t.summary}</p>
+                    </div>
+                    {t.practice && <span className="small muted">+ práctica</span>}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </section>
+          <section className="stack">
+            <h2 className="section-label">Reglas por unidad</h2>
+            <ul className="list">
+              {UNITS.filter((u) => u.rule).map((u) => (
+                <li key={u.id}>
+                  <a href={`#/ayudas/unidad/${u.id}`} className="list-item">
+                    <div>
+                      <p className="small muted">Unidad {u.id} · {u.title}</p>
+                      <h2>{u.topic}</h2>
+                    </div>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </section>
+        </>
+      )}
+    </main>
+  )
+}
+
+function TopicPage({ topic }: { topic: HelpTopic }) {
+  return (
+    <main className="screen">
+      <a href="#/ayudas" className="small">← Ayudas</a>
+      <h1>{topic.title}</h1>
+      <RuleCard rule={topic.rule} />
+      {topic.extra === 'pronunciacion' && <PronunciationList />}
+      {topic.extra === 'tips-genero' && <GenderTips />}
+      {topic.units && (
+        <p className="small muted">
+          Lo ves en {topic.units.length === 1 ? 'la unidad' : 'las unidades'}{' '}
+          {topic.units.map((id, i) => (
+            <span key={id}>
+              {i > 0 && (i === topic.units!.length - 1 ? ' y ' : ', ')}
+              <a href={`#/ayudas/unidad/${id}`}>{id}</a>
+            </span>
+          ))}
+          .
+        </p>
+      )}
+      {topic.practice && (
+        <a href={`#/ayudas/${topic.id}/practicar`} className="btn btn-primary btn-block">{topic.practice.label}</a>
+      )}
+    </main>
+  )
+}
+
+function TopicPractice({ topic }: { topic: HelpTopic }) {
+  return (
+    <main className="screen">
+      <a href={`#/ayudas/${topic.id}`} className="small">← Volver a la explicación</a>
+      <h1>{topic.practice!.label.replace(/^Practicar: /, '').replace(/^Abrir la /, '')}</h1>
+      {topic.practice!.id === 'calculadora' ? <Calculator /> : <GenderSort />}
+    </main>
+  )
+}
+
+function UnitRule({ unitId }: { unitId: number }) {
+  const unit = findUnit(unitId)
+  if (!unit?.rule) return <NotFound />
+  return (
+    <main className="screen">
+      <a href="#/ayudas" className="small">← Ayudas</a>
+      <div>
+        <p className="muted small">Unidad {unit.id} · {unit.title}</p>
+        <h1>{unit.topic}</h1>
+      </div>
+      <RuleCard rule={unit.rule} />
+      <a href={`#/unidad/${unit.id}`} className="btn btn-block">Ir a la unidad {unit.id}</a>
+    </main>
+  )
+}
+
+function PronunciationList() {
+  return (
+    <section className="stack">
+      <h2>Letras especiales</h2>
       <ul className="list">
         {PRONUNCIATION.map((p) => (
           <li key={p.letter} className="card">
@@ -54,13 +169,14 @@ const PAGES: HelpPage[] = [
           </li>
         ))}
       </ul>
-    ),
-  },
-  {
-    id: 'tips-genero',
-    title: 'Cómo reconocer el género',
-    description: 'Pistas para saber si una palabra es masculina, femenina o neutra.',
-    render: () => (
+    </section>
+  )
+}
+
+function GenderTips() {
+  return (
+    <section className="stack">
+      <h2>Pistas para reconocer el género</h2>
       <ul className="list">
         {GENDER_TIPS.map((tip) => (
           <li key={tip.rule} className="card">
@@ -70,92 +186,6 @@ const PAGES: HelpPage[] = [
           </li>
         ))}
       </ul>
-    ),
-  },
-  {
-    id: 'dual',
-    title: 'El dual',
-    description: 'La forma para exactamente dos cosas, según el género.',
-    render: () => (
-      <RuleCard
-        rule={{
-          title: 'El dual según el género',
-          body: [
-            'El esloveno tiene singular, dual (exactamente 2) y plural (3 o más).',
-            'El número dos cambia: dva (masculino) / dve (femenino y neutro).',
-            'Truco: masculino → -a; femenino y neutro → -i.',
-          ],
-          table: {
-            head: ['Género', 'Singular', 'Dual'],
-            rows: [
-              ['Masculino', 'stol', 'dva stola'],
-              ['Femenino', 'hiša', 'dve hiši'],
-              ['Neutro', 'okno', 'dve okni'],
-            ],
-          },
-          examples: [
-            { sl: 'midva greva', es: 'nosotros dos vamos' },
-            { sl: 'mi gremo', es: 'nosotros (3 o más) vamos' },
-          ],
-        }}
-      />
-    ),
-  },
-  {
-    id: 'casos',
-    title: 'Los 6 casos',
-    description: 'Cómo cambia la terminación según la función de la palabra.',
-    render: () => (
-      <RuleCard
-        rule={{
-          title: 'Los 6 casos (con hiša, casa)',
-          body: ['En español usamos preposiciones; en esloveno, además, cambia la terminación de la palabra.'],
-          table: {
-            head: ['Caso', 'Para qué', 'Ejemplo'],
-            rows: [
-              ['Nominativo', 'sujeto', 'To je hiša.'],
-              ['Genitivo', '"de", falta, cantidad', 'Ni hiše.'],
-              ['Dativo', '"a / hacia"', 'Grem k hiši.'],
-              ['Acusativo', 'objeto directo', 'Vidim hišo.'],
-              ['Locativo', '"en" (lugar)', 'V hiši sem.'],
-              ['Instrumental', '"con"', 'Pred hišo.'],
-            ],
-          },
-        }}
-      />
-    ),
-  },
-]
-
-export function HelpScreen({ page }: { page?: string }) {
-  if (page) {
-    const current = PAGES.find((p) => p.id === page)
-    if (!current) return <NotFound />
-    return (
-      <main className="screen">
-        <a href="#/ayudas" className="small">← Ayudas</a>
-        <h1>{current.title}</h1>
-        {current.render()}
-      </main>
-    )
-  }
-
-  return (
-    <main className="screen">
-      <h1>Ayudas</h1>
-      <p className="muted">Consultá cuando quieras, sin seguir la ruta.</p>
-      <ul className="list">
-        {PAGES.map((p) => (
-          <li key={p.id}>
-            <a href={`#/ayudas/${p.id}`} className="list-item">
-              <div>
-                <h2>{p.title}</h2>
-                <p className="small muted">{p.description}</p>
-              </div>
-            </a>
-          </li>
-        ))}
-      </ul>
-    </main>
+    </section>
   )
 }
