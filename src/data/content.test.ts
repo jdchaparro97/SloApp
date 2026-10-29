@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import { buildSections, examplesOf, vocabularyOf } from '../lib/generate'
+import { buildSections, examplesOf, extraWordsFor, vocabularyOf } from '../lib/generate'
+import { templateProblems } from '../lib/templates'
 import { GENDER_WORDS } from './gender'
 import { TRAVEL_GROUPS } from './travel'
 import { SECTION_ORDER, type Exercise } from './types'
@@ -62,6 +63,10 @@ describe('contenido ampliado', () => {
         expect(examplesOf(unit).length).toBeGreaterThanOrEqual(10)
       })
 
+      it('las frases con partes que cambian están bien armadas', () => {
+        expect(examplesOf(unit).flatMap(templateProblems)).toEqual([])
+      })
+
       it('no repite palabras ni traducciones (si no, habría dos opciones correctas)', () => {
         const vocab = vocabularyOf(unit)
         const repeated = (xs: string[]) => xs.filter((x, i) => xs.indexOf(x) !== i)
@@ -81,6 +86,15 @@ describe('contenido ampliado', () => {
             }
             const problems = section.exercises.flatMap((ex, i) => exerciseProblems(ex).map((p) => `${section.id} #${i + 1}: ${p}`))
             expect(problems).toEqual([])
+            for (const ex of section.exercises) {
+              expect(ex.kind).not.toBe('listen')
+              if (ex.kind === 'order') {
+                expect(ex.distractors?.length ?? 0, `"${ex.prompt}" necesita palabras que sobren`).toBeGreaterThanOrEqual(extraWordsFor(unit.id))
+                const answer = ex.words.map((w) => w.toLowerCase())
+                for (const d of ex.distractors ?? []) expect(answer, `"${ex.prompt}": "${d}" sobra pero está en la respuesta`).not.toContain(d.toLowerCase())
+                for (const w of [...ex.words, ...(ex.distractors ?? [])]) expect(w, 'sin puntuación en los botones').not.toMatch(/[.,!?¡¿]$|^[¡¿]/)
+              }
+            }
           }
           const count = (id: string) => sections.find((s) => s.id === id)
           const exercises = (id: string) => {

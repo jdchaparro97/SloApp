@@ -3,7 +3,7 @@ import type { Rule } from '../data/types'
 import { RuleCard } from './RuleCard'
 
 /** Botón "?" que muestra la regla de la unidad en una ventana, sin salir del ejercicio. */
-export function RuleHelpButton({ rule }: { rule: Rule }) {
+export function RuleHelpButton({ rule, unitId }: { rule: Rule; unitId: number }) {
   const [open, setOpen] = useState(false)
   const closeRef = useRef<HTMLButtonElement>(null)
 
@@ -24,7 +24,7 @@ export function RuleHelpButton({ rule }: { rule: Rule }) {
         <div className="overlay" onClick={() => setOpen(false)}>
           <div className="sheet" role="dialog" aria-modal="true" aria-label={rule.title} onClick={(e) => e.stopPropagation()}>
             <RuleCard rule={rule} />
-            <a href="#/ayudas" className="small">Ver todas las ayudas</a>
+            <a href={`#/ayudas/regla/${unitId}`} className="small">Ver en Ayudas</a>
             <button ref={closeRef} type="button" className="btn btn-primary btn-block" onClick={() => setOpen(false)}>
               Volver al ejercicio
             </button>

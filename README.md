@@ -29,9 +29,11 @@ npm run preview  # probar la versión final (incluye modo offline)
 ## Estado
 
 - Las 10 unidades completas, cada una con su regla nueva y sus 5 secciones (Descubrí, Frases, Diálogo, Práctica, Desafío).
-- Cada unidad tiene 20+ palabras y 10 frases de ejemplo (`src/data/vocabulary.ts`). Con ellas se generan más preguntas en cada intento (`src/lib/generate.ts`): Frases ~16, Práctica ~30, Desafío 15.
+- Cada unidad tiene 20+ palabras y 10 frases de ejemplo (`src/data/vocabulary.ts`). Las frases tienen partes que cambian, escritas así: `Nasvidenje, {gospod|gospa}!` ↔ `¡Adiós, {señor|señora}!` (persona, género, señor/señora, nombres). Con ellas se generan preguntas nuevas en cada intento (`src/lib/generate.ts`): Frases ~16, Práctica ~35, Desafío 15.
+- Armar frases: siempre sobran palabras (2 en las unidades 1–3, 3 desde la 4), sobre todo trampas parecidas (gospa/gospod, kava/kavo). La puntuación no aparece en los botones.
+- En lugar de "escuchar": "¿Cómo se dice esta frase?" (elegir entre variantes parecidas) y "Completá" (elegir la forma correcta).
 - Las opciones de los ejercicios se mezclan para que no se memoricen por posición.
-- Ayudas por tema (pronunciación, géneros, dual, números, casos, verbos): primero la explicación y al final la práctica. Buscador y reglas de cada unidad (`src/data/help.ts`).
+- Ayudas en una sola página: herramientas arriba (calculadora, géneros y dual, cada una con su explicación antes) y las reglas en el orden de la ruta, con un resumen de una línea visible y la explicación completa al tocarla.
 - Botón "?" en los ejercicios: muestra la regla de la unidad sin salir del ejercicio.
 - Modo viaje con favoritas, disponible sin internet.
 - El audio usa la voz del dispositivo; si no tiene voz en esloveno, se muestra el texto.

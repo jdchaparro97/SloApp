@@ -7,6 +7,7 @@ export const unit9: Unit = {
   topic: 'Verbos en presente y dual en verbos',
   rule: {
     title: 'Regla nueva: los verbos en presente',
+    short: 'Verbos: -m, -š, -, -mo, -te, -jo. Dos personas: midva -va, vidva / onadva -ta.',
     body: [
       'Los verbos cambian la terminación según quién hace la acción, como en español.',
       'El dual también aparece en los verbos: midva (nosotros dos) termina en -va, vidva y onadva (ustedes dos, ellos dos) en -ta.',

@@ -7,6 +7,7 @@ export const unit5: Unit = {
   topic: 'Locativo con v / na',
   rule: {
     title: 'Regla nueva: el locativo ("estar en un lugar")',
+    short: 'Estar en un lugar: v / na + -i (femenino) o -u (masc. y neutro): v šoli, v parku.',
     body: [
       'Para decir dónde estás se usa v o na + locativo.',
       'V es para lugares cerrados o ciudades y países (v šoli, v Ljubljani). Na es para lugares abiertos y algunos fijos (na trgu, na pošti, na postaji).',

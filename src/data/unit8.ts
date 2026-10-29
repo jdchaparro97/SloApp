@@ -7,6 +7,7 @@ export const unit8: Unit = {
   topic: 'Genitivo',
   rule: {
     title: 'Regla nueva: el genitivo ("no hay" y cantidades)',
+    short: 'No hay, cantidades y 5 o más: femenino -e, masculino +a, neutro -a (ni kruha, liter mleka).',
     body: [
       'El genitivo se usa para lo que falta (ni = no hay, nimam = no tengo), para cantidades (un litro de…, un poco de…) y después de 5 o más.',
       'Femeninos: -a → -e (kava → ni kave). Masculinos: + -a (kruh → ni kruha). Neutros: -o → -a (mleko → ni mleka).',

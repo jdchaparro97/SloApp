@@ -7,6 +7,7 @@ export const unit2: Unit = {
   topic: 'Verbo biti y los 3 géneros',
   rule: {
     title: 'Regla nueva: el verbo biti y los géneros',
+    short: 'Biti = ser/estar (sem, si, je…). Consonante → masculino, -a → femenino, -o/-e → neutro.',
     body: [
       'Biti significa "ser" y "estar" a la vez. Es el verbo más usado.',
       'Cada sustantivo tiene género: masculino, femenino o neutro. Casi siempre se reconoce por la terminación: consonante → masculino, -a → femenino, -o / -e → neutro.',

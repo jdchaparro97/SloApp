@@ -7,6 +7,7 @@ export const unit1: Unit = {
   topic: 'Pronunciación y ti / vi',
   rule: {
     title: 'Regla nueva: ti y vi',
+    short: 'Ti con amigos y familia, vi con desconocidos. č = ch, š = sh, ž = la "y" de "yo".',
     body: [
       'Como en español con "vos" y "usted", en esloveno hay una forma de confianza y una formal.',
       'Ti es para amigos, familia y chicos. Vi es para gente que no conocés o mayores.',

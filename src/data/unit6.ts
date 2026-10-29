@@ -7,6 +7,7 @@ export const unit6: Unit = {
   topic: 'Instrumental',
   rule: {
     title: 'Regla nueva: el instrumental ("en / con")',
+    short: 'En qué viajás: z / s + -om (masc. y neutro) o -o (femenino): z vlakom, z ladjo.',
     body: [
       'Para decir en qué viajás se usa z o s + instrumental: "voy con el tren".',
       'Masculinos y neutros: + -om (vlak → z vlakom). Femeninos: -a → -o (ladja → z ladjo).',

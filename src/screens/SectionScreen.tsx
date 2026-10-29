@@ -45,7 +45,7 @@ export function SectionScreen({ unitId, sectionId, progress, update }: Props) {
       <a href={`#/unidad/${unitId}`} className="small">← Unidad {unitId}</a>
       <div className="spread">
         <h1>{SECTION_TITLES[section.id]}</h1>
-        {unit.rule && section.id !== 'descubri' && <RuleHelpButton rule={unit.rule} />}
+        {unit.rule && section.id !== 'descubri' && <RuleHelpButton rule={unit.rule} unitId={unit.id} />}
       </div>
       {result ? (
         <SectionResult unitId={unitId} sectionId={section.id} score={result.score} passed={result.passed} onRetry={retry} />

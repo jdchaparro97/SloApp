@@ -7,6 +7,7 @@ export const unit3: Unit = {
   topic: 'Regla 1 / 2 / 3–4 / 5+ y el dual',
   rule: {
     title: 'Regla nueva: los números cambian la palabra',
+    short: '1 singular · 2 dual (masc. -a, fem. y neutro -i) · 3–4 plural · 5 o más "cinco de…".',
     body: [
       'Según la cantidad, el sustantivo cambia. Se mira el final del número.',
       'Con 2 se usa el dual: dva (masculino) o dve (femenino y neutro). Truco: masculino → -a; femenino y neutro → -i.',

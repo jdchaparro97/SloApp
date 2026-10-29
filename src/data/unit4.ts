@@ -7,6 +7,7 @@ export const unit4: Unit = {
   topic: 'Acusativo',
   rule: {
     title: 'Regla nueva: el acusativo ("quiero algo")',
+    short: 'Lo que querés o tomás: femenino -a → -o (kava → kavo). Masculino y neutro no cambian.',
     body: [
       'Cuando una cosa recibe la acción (la tomo, la como, la quiero), se usa el acusativo.',
       'Femeninos: -a → -o. Kava → Pijem kavo.',

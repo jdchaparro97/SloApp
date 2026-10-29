@@ -7,6 +7,7 @@ export const unit10: Unit = {
   topic: 'Dativo',
   rule: {
     title: 'Regla nueva: el dativo ("a" o "hacia" alguien)',
+    short: 'Hacia alguien: k / h + -u (masc.) o -i (fem.): k zdravniku, k mami. Me duele = boli me.',
     body: [
       'Para ir hacia una persona se usa k + dativo: grem k zdravniku (voy al médico). Antes de g o k se dice h: h kolegu.',
       'También se usa para dar algo a alguien: Dam bratu knjigo (Le doy el libro a mi hermano).',

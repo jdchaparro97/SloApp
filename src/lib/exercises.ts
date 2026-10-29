@@ -14,9 +14,9 @@ export function isCorrect(exercise: Exercise, answer: Answer): boolean {
 export function correctAnswerText(exercise: Exercise): string {
   switch (exercise.kind) {
     case 'order':
-      return exercise.words.join(' ')
+      return exercise.full ?? exercise.words.join(' ')
     case 'fill':
-      return `${exercise.before} ${exercise.options[exercise.answer]}${exercise.after}`
+      return `${exercise.before} ${exercise.options[exercise.answer]}${exercise.after}`.trim()
     default:
       return exercise.options[exercise.answer]
   }

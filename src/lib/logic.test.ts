@@ -11,7 +11,7 @@ import {
   visibleStreak,
 } from './progress'
 import { parseRoute } from './router'
-import { HELP_TOPICS, normalize, searchHelp } from '../data/help'
+import { isNameSlot, randomChoices, render, slotsOf, templateProblems } from './templates'
 
 describe('isCorrect', () => {
   const choice: Exercise = { kind: 'choice', prompt: '', options: ['a', 'b'], answer: 1 }
@@ -99,9 +99,6 @@ describe('parseRoute', () => {
     ['#/unidad/1', { name: 'unidad', unitId: 1 }],
     ['#/unidad/1/frases', { name: 'seccion', unitId: 1, section: 'frases' }],
     ['#/ayudas', { name: 'ayudas', page: undefined, sub: undefined }],
-    ['#/ayudas/numeros', { name: 'ayudas', page: 'numeros', sub: undefined }],
-    ['#/ayudas/numeros/practicar', { name: 'ayudas', page: 'numeros', sub: 'practicar' }],
-    ['#/ayudas/unidad/3', { name: 'ayudas', page: 'unidad', sub: '3' }],
     ['#/viaje', { name: 'viaje' }],
     ['#/cualquier-cosa', { name: 'ruta' }],
   ])('%s', (hash, expected) => {
@@ -109,29 +106,38 @@ describe('parseRoute', () => {
   })
 })
 
-describe('buscador de ayudas', () => {
-  const titles = (q: string) => searchHelp(q).map((r) => r.title)
+describe('frases con partes que cambian', () => {
+  const pair = { sl: 'Nasvidenje, {gospod|gospa}!', es: '¡Adiós, {señor|señora}!' }
 
-  it('encuentra temas por nombre y por palabra clave', () => {
-    expect(titles('dual')[0]).toBe('El dual')
-    expect(titles('acusativo')).toContain('Los 6 casos')
-    expect(titles('calculadora')).toContain('Números')
+  it('reemplaza cada hueco por la opción elegida, igual en los dos idiomas', () => {
+    expect(slotsOf(pair.sl)).toEqual([['gospod', 'gospa']])
+    expect(render(pair.sl, [1])).toBe('Nasvidenje, gospa!')
+    expect(render(pair.es, [1])).toBe('¡Adiós, señora!')
+    expect(render('Sin huecos.', [])).toBe('Sin huecos.')
   })
 
-  it('encuentra reglas de unidades', () => {
-    expect(titles('acusativo')).toContain('Unidad 4 · Acusativo')
-    expect(titles('locativo')).toContain('Unidad 5 · Locativo con v / na')
+  it('marca el hueco a completar', () => {
+    expect(render(pair.sl, [0], 0).split('\u0000')).toEqual(['Nasvidenje, ', '!'])
   })
 
-  it('ignora tildes y "techitos"', () => {
-    expect(normalize('Č')).toBe('c')
-    expect(titles('č')).toContain('Pronunciación')
-    expect(titles('č')).not.toContain('Los 6 casos')
-    expect(titles('genero')).toContain('Géneros')
+  it('elige opciones dentro del rango', () => {
+    for (let i = 0; i < 20; i++) expect(randomChoices(pair.sl, Math.random)[0]).toBeLessThan(2)
   })
 
-  it('vacío no devuelve nada y cada tema tiene explicación', () => {
-    expect(searchHelp('  ')).toEqual([])
-    for (const t of HELP_TOPICS) expect(t.rule.body.length).toBeGreaterThan(0)
+  it('detecta plantillas mal armadas y huecos de nombres', () => {
+    expect(templateProblems(pair)).toEqual([])
+    expect(templateProblems({ sl: '{a|b}', es: 'sin hueco' })).toHaveLength(1)
+    expect(templateProblems({ sl: '{a|b}', es: '{x|y|z}' })).toHaveLength(1)
+    expect(isNameSlot({ sl: 'Ime mi je {Ana|Luka}.', es: 'Me llamo {Ana|Luka}.' }, 0)).toBe(true)
+    expect(isNameSlot(pair, 0)).toBe(false)
+  })
+})
+
+describe('rutas de ayudas', () => {
+  it.each([
+    ['#/ayudas/regla/3', { name: 'ayudas', page: 'regla', sub: '3' }],
+    ['#/ayudas/calculadora', { name: 'ayudas', page: 'calculadora', sub: undefined }],
+  ])('%s', (hash, expected) => {
+    expect(parseRoute(hash)).toEqual(expected)
   })
 })

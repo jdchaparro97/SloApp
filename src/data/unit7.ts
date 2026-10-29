@@ -7,6 +7,7 @@ export const unit7: Unit = {
   topic: 'Días de la semana y la hora',
   rule: {
     title: 'Regla nueva: "el lunes" y "a las cinco"',
+    short: '"El sábado" = v soboto (fem. -a → -o). "A las cinco" = ob petih. "Son las tres" = ura je tri.',
     body: [
       'Para decir "el lunes", "el sábado"… se usa v + el día. Los días femeninos cambian -a → -o: sreda → v sredo, sobota → v soboto. Los masculinos no cambian: v ponedeljek.',
       'Para preguntar la hora: Koliko je ura? Se responde: Ura je ena / dve / tri / pet.',

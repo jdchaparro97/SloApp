@@ -11,8 +11,8 @@ export interface Pair {
 export type Exercise =
   /** Elegir la opción correcta. Si tiene `sl`, se puede escuchar. */
   | { kind: 'choice'; prompt: string; sl?: string; options: string[]; answer: number; explain?: string }
-  /** Ordenar palabras para armar la frase en esloveno. */
-  | { kind: 'order'; prompt: string; words: string[]; distractors?: string[]; explain?: string }
+  /** Ordenar palabras para armar la frase en esloveno. `full` es la frase con puntuación, para mostrar la corrección. */
+  | { kind: 'order'; prompt: string; words: string[]; distractors?: string[]; explain?: string; full?: string }
   /** Completar el hueco de una frase. */
   | { kind: 'fill'; prompt: string; before: string; after: string; options: string[]; answer: number; explain?: string }
   /** Escuchar y elegir qué se dijo. */
@@ -22,6 +22,8 @@ export type Answer = number | string[]
 
 export interface Rule {
   title: string
+  /** Resumen de una línea: se ve en Ayudas sin abrir la regla. */
+  short?: string
   body: string[]
   table?: { head: string[]; rows: string[][] }
   examples?: Pair[]
