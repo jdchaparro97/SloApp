@@ -1,4 +1,4 @@
-// Frases con partes que cambian: "Nasvidenje, {gospod|gospa}!" ↔ "¡Adiós, {señor|señora}!".
+// Frases con partes que cambian: "Na svidenje, {gospod|gospa}!" ↔ "¡Adiós, {señor|señora}!".
 // El hueco número N del esloveno se corresponde con el hueco N del español, y cada opción con la de la misma posición.
 
 const SLOT = /\{([^{}]*)\}/g

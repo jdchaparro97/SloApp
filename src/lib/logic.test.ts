@@ -109,17 +109,17 @@ describe('parseRoute', () => {
 })
 
 describe('frases con partes que cambian', () => {
-  const pair = { sl: 'Nasvidenje, {gospod|gospa}!', es: '¡Adiós, {señor|señora}!' }
+  const pair = { sl: 'Na svidenje, {gospod|gospa}!', es: '¡Adiós, {señor|señora}!' }
 
   it('reemplaza cada hueco por la opción elegida, igual en los dos idiomas', () => {
     expect(slotsOf(pair.sl)).toEqual([['gospod', 'gospa']])
-    expect(render(pair.sl, [1])).toBe('Nasvidenje, gospa!')
+    expect(render(pair.sl, [1])).toBe('Na svidenje, gospa!')
     expect(render(pair.es, [1])).toBe('¡Adiós, señora!')
     expect(render('Sin huecos.', [])).toBe('Sin huecos.')
   })
 
   it('marca el hueco a completar', () => {
-    expect(render(pair.sl, [0], 0).split('\u0000')).toEqual(['Nasvidenje, ', '!'])
+    expect(render(pair.sl, [0], 0).split('\u0000')).toEqual(['Na svidenje, ', '!'])
   })
 
   it('elige opciones dentro del rango', () => {

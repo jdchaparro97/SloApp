@@ -1,7 +1,7 @@
 import type { Pair } from './types'
 
 /**
- * Frase de ejemplo. Puede tener partes que cambian: "Nasvidenje, {gospod|gospa}!" ↔ "¡Adiós, {señor|señora}!".
+ * Frase de ejemplo. Puede tener partes que cambian: "Na svidenje, {gospod|gospa}!" ↔ "¡Adiós, {señor|señora}!".
  * `traps`: palabras que parecen correctas pero no van (se usan como trampa al armar la frase).
  */
 export interface Example extends Pair {
@@ -43,9 +43,9 @@ export const EXTRAS: Record<number, UnitExtras> = {
       { sl: 'Ime mi je {Marko|Lucía|Nina|Tomás}.', es: 'Me llamo {Marko|Lucía|Nina|Tomás}.', traps: ['ti'] },
       { sl: 'Kako {ti|vam} je ime?', es: '¿Cómo {te llamás|se llama usted}?', traps: ['mi'] },
       { sl: 'Hvala za pomoč.', es: 'Gracias por la ayuda.', traps: ['prosim'] },
-      { sl: 'Se vidimo {jutri|danes}!', es: '¡Nos vemos {mañana|hoy}!', traps: ['Nasvidenje'] },
+      { sl: 'Se vidimo {jutri|danes}!', es: '¡Nos vemos {mañana|hoy}!', traps: ['Adijo'] },
       { sl: 'Lahko noč, {mama|oči|babica}!', es: '¡Que descanses, {mamá|papá|abuela}!', traps: ['Dober'] },
-      { sl: 'Nasvidenje, {gospod|gospa}!', es: '¡Adiós, {señor|señora}!', traps: ['Živjo'] },
+      { sl: 'Na svidenje, {gospod|gospa}!', es: '¡Adiós, {señor|señora}!', traps: ['Živjo'] },
       { sl: 'Kako ste, {gospod|gospa} Novak?', es: '¿Cómo está, {señor|señora} Novak?', traps: ['si'] },
     ],
   },

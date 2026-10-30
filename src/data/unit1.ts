@@ -18,7 +18,7 @@ export const unit1: Unit = {
       rows: [
         ['¿Cómo estás?', 'Kako si?', 'Kako ste?'],
         ['Hola / Buen día', 'Živjo!', 'Dober dan!'],
-        ['Chau / Adiós', 'Adijo!', 'Nasvidenje!'],
+        ['Chau / Adiós', 'Adijo!', 'Na svidenje!'],
       ],
     },
     examples: [
@@ -38,7 +38,7 @@ export const unit1: Unit = {
         { sl: 'Hvala', es: 'Gracias', note: 'La h suena como una "j" suave.' },
         { sl: 'Prosim', es: 'Por favor / De nada' },
         { sl: 'Adijo!', es: '¡Chau!', note: 'Informal.' },
-        { sl: 'Nasvidenje!', es: '¡Adiós! / ¡Hasta luego!', note: 'Formal.' },
+        { sl: 'Na svidenje!', es: '¡Adiós! / ¡Hasta luego!', note: 'Formal.' },
       ],
     },
     {
@@ -114,7 +114,7 @@ export const unit1: Unit = {
       exercises: [
         { kind: 'listen', sl: 'Dobro jutro!', options: ['¡Buenos días!', '¡Buenas noches!', '¡Chau!'], answer: 0 },
         { kind: 'listen', sl: 'Hvala', options: ['Por favor', 'Gracias', 'Hola'], answer: 1 },
-        { kind: 'choice', prompt: '¿Qué significa "Nasvidenje"?', options: ['¡Hola!', '¡Adiós!', 'Gracias'], answer: 1 },
+        { kind: 'choice', prompt: '¿Qué significa "Na svidenje"?', options: ['¡Hola!', '¡Adiós!', 'Gracias'], answer: 1 },
         { kind: 'fill', prompt: 'Completá: "¿Cómo está usted?"', before: 'Kako', after: '?', options: ['si', 'ste', 'je'], answer: 1 },
         { kind: 'order', prompt: 'Armá: "Buenas noches, ¿cómo está usted?"', words: ['Dober', 'večer,', 'kako', 'ste?'], distractors: ['si?'] },
         {
@@ -130,7 +130,7 @@ export const unit1: Unit = {
       id: 'desafio',
       kind: 'exercises',
       exercises: [
-        { kind: 'choice', prompt: '¿Cómo se dice "¡Hola!" a un amigo?', options: ['Dober dan!', 'Živjo!', 'Nasvidenje!'], answer: 1 },
+        { kind: 'choice', prompt: '¿Cómo se dice "¡Hola!" a un amigo?', options: ['Dober dan!', 'Živjo!', 'Na svidenje!'], answer: 1 },
         { kind: 'listen', sl: 'Me veseli!', options: ['¡Encantado!', '¡Chau!', 'También bien'], answer: 0 },
         { kind: 'order', prompt: 'Armá: "Me llamo Luka."', words: ['Ime', 'mi', 'je', 'Luka.'], distractors: ['ti'] },
         { kind: 'fill', prompt: 'Completá: "¿Cómo estás?" (informal)', before: 'Kako', after: '?', options: ['ste', 'si', 'ime'], answer: 1 },
