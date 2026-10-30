@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { useState, type ReactNode } from 'react'
 import type { Exercise } from '../data/types'
 import { ExerciseView } from './ExerciseView'
+import { TopBar } from './TopBar'
 
 interface Props {
   exercises: Exercise[]
@@ -8,10 +9,13 @@ interface Props {
   strict?: boolean
   /** `score` = proporción de ejercicios acertados al primer intento (0–1). */
   onFinish: (score: number) => void
+  closeHref: string
+  help?: ReactNode
+  label: string
 }
 
 /** Muestra los ejercicios de a uno. Fuera del modo estricto, los que fallás vuelven al final una vez. */
-export function ExerciseRunner({ exercises, strict = false, onFinish }: Props) {
+export function ExerciseRunner({ exercises, strict = false, onFinish, closeHref, help, label }: Props) {
   const [queue, setQueue] = useState(() => exercises.map((_, i) => i))
   const [position, setPosition] = useState(0)
   const [firstTry, setFirstTry] = useState<Record<number, boolean>>({})
@@ -31,11 +35,10 @@ export function ExerciseRunner({ exercises, strict = false, onFinish }: Props) {
   }
 
   return (
-    <div className="stack">
-      <div className="progress-bar" role="progressbar" aria-valuemin={0} aria-valuemax={queue.length} aria-valuenow={position}>
-        <span style={{ width: `${(position / queue.length) * 100}%` }} />
-      </div>
+    <>
+      <TopBar closeHref={closeHref} progress={position / queue.length} help={help} />
+      <p className="prompt-label">{label} · {position + 1} de {queue.length}</p>
       <ExerciseView key={position} exercise={exercises[current]} onNext={handleNext} />
-    </div>
+    </>
   )
 }

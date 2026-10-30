@@ -5,6 +5,7 @@ import { GENDER_TIPS } from '../data/gender'
 import { CASES_SUMMARY, GENDER_PRACTICE_RULE, NUMBERS_TOOL_RULE, PRONUNCIATION } from '../data/help'
 import type { Unit } from '../data/types'
 import { UNITS } from '../data/units'
+import { isUnitUnlocked, sectionKey, type Progress } from '../lib/progress'
 import { Calculator } from './Calculator'
 import { GenderSort } from './GenderSort'
 import { NotFound } from './NotFound'
@@ -16,15 +17,21 @@ import { NotFound } from './NotFound'
  *   #/ayudas/calculadora   herramienta (explicación primero)
  *   #/ayudas/generos       herramienta (explicación primero)
  */
-export function HelpScreen({ page, sub }: { page?: string; sub?: string }) {
-  if (!page) return <HelpIndex />
-  if (page === 'regla') return <HelpIndex open={Number(sub)} />
+export function HelpScreen({ page, sub, progress }: { page?: string; sub?: string; progress: Progress }) {
+  if (!page) return <HelpIndex progress={progress} />
+  if (page === 'regla') return <HelpIndex progress={progress} open={Number(sub)} />
   if (page === 'calculadora') return <Tool title="Calculadora de números" intro={<RuleCard rule={NUMBERS_TOOL_RULE} />}><Calculator /></Tool>
   if (page === 'generos') return <Tool title="Practicar géneros y dual" intro={<RuleCard rule={GENDER_PRACTICE_RULE} />}><GenderSort /></Tool>
   return <NotFound />
 }
 
-function HelpIndex({ open }: { open?: number }) {
+/** Mismo código de puntos que la Ruta: unidad terminada, actual o bloqueada. */
+function unitDot(unitId: number, progress: Progress): string {
+  if (progress.done.includes(sectionKey(unitId, 'desafio'))) return 'dot-done'
+  return isUnitUnlocked(unitId, progress) ? 'dot-current' : 'dot-locked'
+}
+
+function HelpIndex({ open, progress }: { open?: number; progress: Progress }) {
   // Al llegar con una regla abierta, se muestra en pantalla.
   useEffect(() => {
     if (open) document.getElementById(`regla-${open}`)?.scrollIntoView({ block: 'start' })
@@ -35,29 +42,28 @@ function HelpIndex({ open }: { open?: number }) {
       <h1>Ayudas</h1>
 
       <section className="stack">
-        <h2 className="section-label">Herramientas</h2>
         <div className="tools">
-          <a href="#/ayudas/calculadora" className="card tool">
+          <a href="#/ayudas/calculadora" className="tool tool-blue">
             <strong>Calculadora de números</strong>
-            <span className="small muted">Cómo se dice y cómo se arma cualquier número.</span>
           </a>
-          <a href="#/ayudas/generos" className="card tool">
-            <strong>Practicar géneros y dual</strong>
-            <span className="small muted">Clasificá palabras y formá el dual.</span>
+          <a href="#/ayudas/generos" className="tool tool-pink">
+            <strong>Géneros y dual</strong>
           </a>
         </div>
       </section>
 
       <section className="stack">
-        <h2 className="section-label">Reglas, en el orden de la ruta</h2>
-        <p className="small muted">Tocá una regla para ver la explicación completa.</p>
+        <h2 className="section-label">Reglas, en el orden de la ruta. Tocá una para ver la explicación.</h2>
         <div className="accordion">
           {UNITS.filter((u) => u.rule).map((unit) => (
             <details key={unit.id} id={`regla-${unit.id}`} open={unit.id === open}>
               <summary>
-                <span className="small muted">Unidad {unit.id} · {unit.title}</span>
-                <strong>{unit.topic}</strong>
-                {unit.rule!.short && <span className="small">{unit.rule!.short}</span>}
+                <span className={`dot ${unitDot(unit.id, progress)}`} aria-hidden="true" />
+                <span>
+                  <span className="row-title" style={{ display: 'block' }}>{String(unit.id).padStart(2, '0')} · {unit.topic}</span>
+                  {unit.rule!.short && <span className="row-sub" style={{ display: 'block' }}>{unit.rule!.short}</span>}
+                </span>
+                <span className="sign" aria-hidden="true" />
               </summary>
               <div className="accordion-body">
                 <RuleCard rule={unit.rule!} />
@@ -68,9 +74,12 @@ function HelpIndex({ open }: { open?: number }) {
           ))}
           <details id="regla-casos">
             <summary>
-              <span className="small muted">Resumen</span>
-              <strong>{CASES_SUMMARY.title}</strong>
-              <span className="small">{CASES_SUMMARY.short}</span>
+              <span className="dot dot-done" aria-hidden="true" />
+              <span>
+                <span className="row-title" style={{ display: 'block' }}>{CASES_SUMMARY.title}</span>
+                <span className="row-sub" style={{ display: 'block' }}>{CASES_SUMMARY.short}</span>
+              </span>
+              <span className="sign" aria-hidden="true" />
             </summary>
             <div className="accordion-body">
               <RuleCard rule={CASES_SUMMARY} />
@@ -109,7 +118,7 @@ function UnitExtras({ unit }: { unit: Unit }) {
 function Tool({ title, intro, children }: { title: string; intro: ReactNode; children: ReactNode }) {
   return (
     <main className="screen">
-      <a href="#/ayudas" className="small">← Ayudas</a>
+      <a href="#/ayudas" className="back">← Ayudas</a>
       <h1>{title}</h1>
       {intro}
       {children}

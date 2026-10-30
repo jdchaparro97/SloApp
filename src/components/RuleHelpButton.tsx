@@ -17,7 +17,7 @@ export function RuleHelpButton({ rule, unitId }: { rule: Rule; unitId: number })
 
   return (
     <>
-      <button type="button" className="btn btn-icon" aria-label="Ver la regla de la unidad" aria-haspopup="dialog" onClick={() => setOpen(true)}>
+      <button type="button" className="btn-orb" aria-label="Ver la regla de la unidad" aria-haspopup="dialog" onClick={() => setOpen(true)}>
         ?
       </button>
       {open && (

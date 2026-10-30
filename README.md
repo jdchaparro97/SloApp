@@ -18,8 +18,9 @@ npm run preview  # probar la versión final (incluye modo offline)
 
 | Carpeta / archivo | Qué hay |
 |---|---|
-| `src/styles/tokens.css` | **Toda la estética**: colores, tipografías, bordes, espacios. Cambiando este archivo se rediseña la app. |
+| `src/styles/tokens.css` | **Toda la estética** del diseño "Blanco y luz": colores, degradés, tipografía de sistema (SF Pro / Helvética), bordes, espacios. |
 | `src/styles/base.css` | Estructura de los componentes (usa solo las variables de `tokens.css`). |
+| `src/data/lexicon.ts` | Género de cada sustantivo (en todas sus formas) para los puntos de color: azul masculino, naranja femenino, verde neutro. |
 | `src/data/` | Contenido: unidades (`unit1.ts`…`unit10.ts`), vocabulario y ejemplos extra (`vocabulary.ts`), frases de viaje, palabras de géneros. Se puede revisar y corregir sin tocar código. |
 | `src/lib/numbers.ts` | Lógica de los números en esloveno (calculadora). |
 | `src/lib/progress.ts` | Progreso, desbloqueo de unidades, racha y favoritas (guardado en el dispositivo). |
@@ -35,6 +36,7 @@ npm run preview  # probar la versión final (incluye modo offline)
 - Las opciones de los ejercicios se mezclan para que no se memoricen por posición.
 - Ayudas en una sola página: herramientas arriba (calculadora, géneros y dual, cada una con su explicación antes) y las reglas en el orden de la ruta, con un resumen de una línea visible y la explicación completa al tocarla.
 - Botón "?" en los ejercicios: muestra la regla de la unidad sin salir del ejercicio.
+- Diseño "Blanco y luz": fondo blanco, luces de degradé solo en lo destacado (unidad actual, herramientas, barra inferior, palabras elegidas, progreso) y un guiño a la bandera junto al nombre.
 - Modo viaje con favoritas, disponible sin internet.
 - El audio usa la voz del dispositivo; si no tiene voz en esloveno, se muestra el texto.
 - **El contenido en esloveno está pendiente de revisión por un hablante nativo.**

@@ -1,45 +1,72 @@
 /*
-  TOKENS DE DISEÑO — el único lugar para cambiar la estética.
-  Estilo neutro y provisorio: los componentes usan solo estas variables.
+  TOKENS DE DISEÑO — "Blanco y luz".
+  Fondo blanco con mucho aire, tipografía de sistema (SF Pro en iPhone, Helvética en otros)
+  y luces de degradé solo en lo destacado. Los componentes usan solo estas variables.
 */
 :root {
-  /* Tipografía */
-  --font-body: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  /* Tipografía: la del sistema */
+  --font-body: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   --font-display: var(--font-body);
   --text-sm: 0.875rem;
-  --text-md: 1rem;
-  --text-lg: 1.25rem;
-  --text-xl: 1.75rem;
-  --text-2xl: 2.25rem;
+  --text-md: 1.0625rem;
+  --text-lg: 1.375rem;
+  --text-xl: 2.75rem;
+  --text-2xl: 2.125rem;
+  --tracking-tight: -0.04em;
 
   /* Colores base */
   --color-bg: #ffffff;
-  --color-surface: #f4f4f5;
-  --color-text: #18181b;
-  --color-text-muted: #52525b;
-  --color-border: #d4d4d8;
-  --color-primary: #1f4e9c;
+  --color-surface: #f2f2f4;
+  --color-text: #0a0a0a;
+  --color-text-muted: #6b6b70;
+  --color-border: #ededf0;
+  --color-border-strong: #dcdce0;
+  --color-primary: #0a0a0a;
   --color-on-primary: #ffffff;
+
+  /* Luz principal (violeta) */
+  --glow-deep: #2414c8;
+  --glow-mid: #5b4bff;
+  --glow-soft: #b9a8ff;
+  --glow-pale: #f1ecff;
+  --glow-violet: radial-gradient(120% 85% at 50% 30%, var(--glow-deep) 0%, var(--glow-mid) 38%, var(--glow-soft) 72%, var(--glow-pale) 100%);
+  --glow-violet-pill: radial-gradient(120% 160% at 50% 25%, var(--glow-deep) 0%, #4a3bff 55%, #7e70ff 100%);
+  --glow-blue: radial-gradient(110% 100% at 50% 35%, #0047ff 0%, #2f7bff 40%, #a9c8ff 78%, #eef4ff 100%);
+  --glow-pink: radial-gradient(110% 100% at 50% 35%, #ff2e93 0%, #ff6fb5 40%, #ffc6e0 78%, #fff2f8 100%);
+  --glow-sunset: radial-gradient(90% 120% at 30% 50%, #ffb347 0%, #ff7a59 35%, #ffd1e0 75%, #fff4f6 100%);
+  --glow-progress: linear-gradient(90deg, var(--glow-mid) 0%, #ff6fb5 60%, #ffb347 100%);
+  --glow-corner: radial-gradient(circle, rgba(255, 111, 181, 0.4) 0%, rgba(255, 179, 71, 0.18) 45%, rgba(255, 255, 255, 0) 70%);
+  --glow-inset: inset 0 0 36px rgba(255, 255, 255, 0.75);
+  --glow-shadow: 0 24px 48px -20px rgba(91, 75, 255, 0.45);
+
+  /* Puntos de la ruta */
+  --dot-done: radial-gradient(circle at 40% 35%, #e9e3ff 0%, #9c8cff 55%, #5b4bff 100%);
+  --dot-locked: #c9c9d2;
+
+  /* Bandera eslovena (solo un guiño) */
+  --flag-blue: #005da4;
+  --flag-red: #ed1c24;
 
   /* Estados */
   --color-correct: #166534;
-  --color-correct-bg: #dcfce7;
+  --color-correct-bg: #e8f8ee;
   --color-wrong: #b91c1c;
-  --color-wrong-bg: #fee2e2;
-  --color-locked: #a1a1aa;
-  --color-overlay: rgb(0 0 0 / 0.45);
+  --color-wrong-bg: #fdeeee;
+  --color-locked: #9a9aa0;
+  --color-overlay: rgb(10 10 10 / 0.35);
 
-  /* Géneros: parte del método de enseñanza, se usan en toda la app */
+  /* Géneros: parte del método de enseñanza. Siempre lisos, sin degradé. */
   --color-masc: #1d4ed8;
   --color-fem: #c2410c;
   --color-neut: #15803d;
-  --color-masc-bg: #dbeafe;
-  --color-fem-bg: #ffedd5;
-  --color-neut-bg: #dcfce7;
+  --color-masc-bg: #e8efff;
+  --color-fem-bg: #fff0e6;
+  --color-neut-bg: #e6f6ec;
 
   /* Formas */
-  --radius-sm: 6px;
-  --radius-md: 12px;
+  --radius-sm: 12px;
+  --radius-md: 20px;
+  --radius-lg: 32px;
   --radius-full: 999px;
   --border-width: 1px;
 
@@ -54,5 +81,5 @@
   /* Medidas */
   --content-max: 560px;
   --tap-min: 44px;
-  --tabbar-height: 64px;
+  --tabbar-height: 84px;
 }

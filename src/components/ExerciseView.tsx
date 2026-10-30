@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { genderOf } from '../data/lexicon'
 import type { Answer, Exercise } from '../data/types'
 import { correctAnswerText, isCorrect, shuffle } from '../lib/exercises'
 import { useSloveneVoice } from '../lib/speech'
@@ -18,7 +19,7 @@ export function ExerciseView({ exercise, onNext }: Props) {
   const canCheck = Array.isArray(answer) ? answer.length > 0 : answer !== null
 
   return (
-    <div className="stack">
+    <div className="stack" style={{ gap: 24 }}>
       {exercise.kind === 'order' ? (
         <OrderExercise exercise={exercise} picked={answer as string[]} disabled={checked} onChange={setAnswer} />
       ) : (
@@ -40,6 +41,36 @@ export function ExerciseView({ exercise, onNext }: Props) {
         </button>
       )}
     </div>
+  )
+}
+
+/** Separa la consigna en una etiqueta chica y el texto grande: 'Armá: "Hola"' → "Armá la frase" + "Hola". */
+export function splitPrompt(prompt: string): { label?: string; big: string } {
+  const prefixes: [string, string][] = [['Armá: ', 'Armá la frase'], ['Completá: ', 'Completá la frase'], ['Repaso: ', 'Repaso']]
+  for (const [prefix, label] of prefixes) {
+    if (prompt.startsWith(prefix)) return { label, big: prompt.slice(prefix.length).replace(/^"(.+?)"/, '$1') }
+  }
+  return { big: prompt }
+}
+
+function Prompt({ text }: { text: string }) {
+  const { label, big } = splitPrompt(text)
+  return (
+    <div className="stack" style={{ gap: 8 }}>
+      {label && <span className="prompt-label">{label}</span>}
+      <h2 className="prompt-big">{big}</h2>
+    </div>
+  )
+}
+
+/** Palabra en píldora, con el punto de su género si es un sustantivo. */
+function WordChip({ word, placed, disabled, onClick }: { word: string; placed?: boolean; disabled: boolean; onClick: () => void }) {
+  const gender = genderOf(word)
+  return (
+    <button type="button" className={`word ${placed ? 'word-placed' : ''} ${gender ? 'has-dot' : ''}`} disabled={disabled} onClick={onClick}>
+      {gender && <span className={`gdot g-${gender}`} aria-hidden="true" />}
+      {word}
+    </button>
   )
 }
 
@@ -75,11 +106,11 @@ function OptionsExercise({ exercise, selected, checked, onSelect }: {
           {!hasVoice && <p className="notice">Tu dispositivo no tiene voz en esloveno, así que te mostramos el texto.</p>}
         </div>
       ) : (
-        <div className="stack">
-          <h2>{exercise.prompt}</h2>
+        <div className="stack" style={{ gap: 20 }}>
+          <Prompt text={exercise.prompt} />
           {exercise.kind === 'fill' && (
-            <p className="sl sl-big">
-              {exercise.before} <span aria-label="hueco">{selected !== null ? exercise.options[selected] : '____'}</span>{exercise.after}
+            <p className="card sl" style={{ fontSize: 22 }}>
+              <span>{exercise.before} <span aria-label="hueco" style={{ borderBottom: '2px solid currentColor', paddingInline: 4 }}>{selected !== null ? exercise.options[selected] : '\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0'}</span>{exercise.after}</span>
             </p>
           )}
           {exercise.kind === 'choice' && exercise.sl && (
@@ -125,23 +156,25 @@ function OrderExercise({ exercise, picked, disabled, onChange }: {
   }
 
   return (
-    <div className="stack">
-      <h2>{exercise.prompt}</h2>
+    <div className="stack" style={{ gap: 24 }}>
+      <Prompt text={exercise.prompt} />
       <div className="word-answer" aria-label="Tu frase">
         {pickedIds.map((id) => (
-          <button key={id} type="button" className="btn" disabled={disabled} onClick={() => update(pickedIds.filter((p) => p !== id))}>
-            {bank.find((b) => b.id === id)!.word}
-          </button>
+          <WordChip key={id} word={bank.find((b) => b.id === id)!.word} placed disabled={disabled} onClick={() => update(pickedIds.filter((p) => p !== id))} />
         ))}
+        {picked.length === 0 && !disabled && <span className="muted small">Tocá las palabras en orden.</span>}
       </div>
-      <div className="word-bank" aria-label="Palabras disponibles">
+      <div className="word-panel word-bank" aria-label="Palabras disponibles">
         {bank.filter((b) => !pickedIds.includes(b.id)).map((b) => (
-          <button key={b.id} type="button" className="btn" disabled={disabled} onClick={() => update([...pickedIds, b.id])}>
-            {b.word}
-          </button>
+          <WordChip key={b.id} word={b.word} disabled={disabled} onClick={() => update([...pickedIds, b.id])} />
         ))}
       </div>
-      {picked.length === 0 && !disabled && <p className="muted small">Tocá las palabras en orden.</p>}
+      {bank.some((b) => genderOf(b.word)) && (
+        <p className="legend">
+          El punto marca el género: <span className="g-m">azul</span> masculino, <span className="g-f">naranja</span> femenino,{' '}
+          <span className="g-n">verde</span> neutro. Sin punto: no tiene género.
+        </p>
+      )}
     </div>
   )
 }

@@ -11,6 +11,8 @@ import {
   visibleStreak,
 } from './progress'
 import { parseRoute } from './router'
+import { genderOf, lexiconWords } from '../data/lexicon'
+import { splitPrompt } from '../components/ExerciseView'
 import { isNameSlot, randomChoices, render, slotsOf, templateProblems } from './templates'
 
 describe('isCorrect', () => {
@@ -139,5 +141,31 @@ describe('rutas de ayudas', () => {
     ['#/ayudas/calculadora', { name: 'ayudas', page: 'calculadora', sub: undefined }],
   ])('%s', (hash, expected) => {
     expect(parseRoute(hash)).toEqual(expected)
+  })
+})
+
+describe('género de las palabras (puntos de color)', () => {
+  it('reconoce sustantivos en distintas formas y deja sin punto lo que no es sustantivo', () => {
+    expect(genderOf('kava')).toBe('f')
+    expect(genderOf('kavo')).toBe('f')
+    expect(genderOf('Dan')).toBe('m')
+    expect(genderOf('jutro')).toBe('n')
+    expect(genderOf('oče')).toBe('m')
+    expect(genderOf('Luka')).toBe('m')
+    expect(genderOf('Dober')).toBeUndefined()
+    expect(genderOf('je')).toBeUndefined()
+  })
+
+  it('tiene las formas de los sustantivos de los ejercicios', () => {
+    expect(lexiconWords().length).toBeGreaterThan(200)
+  })
+})
+
+describe('consigna en dos partes', () => {
+  it('separa la etiqueta del texto grande', () => {
+    expect(splitPrompt('Armá: "¡Buen día, señora!"')).toEqual({ label: 'Armá la frase', big: '¡Buen día, señora!' })
+    expect(splitPrompt('Armá: "¿Cómo estás?" (informal)')).toEqual({ label: 'Armá la frase', big: '¿Cómo estás? (informal)' })
+    expect(splitPrompt('Completá: "Tomo café."')).toEqual({ label: 'Completá la frase', big: 'Tomo café.' })
+    expect(splitPrompt('¿Qué significa?')).toEqual({ big: '¿Qué significa?' })
   })
 })
