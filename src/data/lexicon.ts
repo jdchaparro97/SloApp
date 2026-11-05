@@ -12,6 +12,8 @@ kruh kruha liter mesec most mož muzej muzeju odhod oče oči otrok otroci park 
 potnik prihod prijatelj račun razred razredu rešilec rešilca sedež semafor semaforju sir sladkor sladkorja sladoled sok soka
 stol stolu stric tek telefon telefona teden torek trebuh trg trgu večer vikend vlak vlakom voznik vrt vrtu zajtrk zdravnik
 zdravniku zemljevid zob luka marko martín matías tomaž tomás jure
+učitelj študent poklic poklicu urugvaj urugvaja maribor mariboru izpit odgovor center ključ ključi vogal vogalom plašč pulover
+šal čevlje film filmi
 `
 
 const FEMININE = `
@@ -23,11 +25,15 @@ soba sobota soboto sol solata solato sreda sredo tableta teta televizija televiz
 večerja večerjo voda vode vodi vozovnica vozovnice vozovnici vozovnico vrečka vročina vročino zamuda zamudo zelenjava zima
 šola šoli šolo žena ana nina lucía sofía argentina argentine argentini ljubljana ljubljane ljubljani slovenija sloveniji
 mendoza mendozi
+učiteljica študentka služba službe córdoba córdobe slovenije torba torbi torbo knjižnico omara omari omaro luč slika
+stena steni steno polica preproga mačka mizo hišo hiše pošte posteljo kuhinji majica majico hlače obleka obleko nogavice jakna
+kapa barva barvi barvo kabina velikost
 `
 
 const NEUTER = `
 grlo ime jabolko jabolka jabolk jajce jajc jutro kolo kolesom kosilo leto let letalo letalom letališče meso mesa mesto mleko
 mleka morje okno poletje sadje vino vrata
+vprašanje križišče križišču krilo oknom okna mnenje mnenju
 `
 
 const LEXICON = new Map<string, Gender>()

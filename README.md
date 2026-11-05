@@ -21,7 +21,7 @@ npm run preview  # probar la versión final (incluye modo offline)
 | `src/styles/tokens.css` | **Toda la estética** del diseño "Blanco y luz": colores, degradés, tipografía de sistema (SF Pro / Helvética), bordes, espacios. |
 | `src/styles/base.css` | Estructura de los componentes (usa solo las variables de `tokens.css`). |
 | `src/data/lexicon.ts` | Género de cada sustantivo (en todas sus formas) para los puntos de color: azul masculino, naranja femenino, verde neutro. |
-| `src/data/` | Contenido: unidades (`unit1.ts`…`unit10.ts`), vocabulario y ejemplos extra (`vocabulary.ts`), frases de viaje, palabras de géneros. Se puede revisar y corregir sin tocar código. |
+| `src/data/` | Contenido: unidades (`unit1.ts`…`unit15.ts`), vocabulario y ejemplos extra (`vocabulary.ts`), frases de viaje, palabras de géneros. Se puede revisar y corregir sin tocar código. |
 | `src/lib/numbers.ts` | Lógica de los números en esloveno (calculadora). |
 | `src/lib/progress.ts` | Progreso, desbloqueo de unidades, racha y favoritas (guardado en el dispositivo). |
 | `src/screens/` | Pantallas: Ruta, Unidad, Sección, Ayudas, Calculadora, Géneros, Viaje. |
@@ -29,8 +29,8 @@ npm run preview  # probar la versión final (incluye modo offline)
 
 ## Estado
 
-- Las 10 unidades completas, cada una con su regla nueva y sus 5 secciones (Descubrí, Frases, Diálogo, Práctica, Desafío).
-- Cada unidad tiene 20+ palabras y 10 frases de ejemplo (`src/data/vocabulary.ts`). Las frases tienen partes que cambian, escritas así: `Nasvidenje, {gospod|gospa}!` ↔ `¡Adiós, {señor|señora}!` (persona, género, señor/señora, nombres). Con ellas se generan preguntas nuevas en cada intento (`src/lib/generate.ts`): Frases ~16, Práctica ~35, Desafío 15.
+- 15 unidades, cada una con su regla nueva y sus 5 secciones (Descubrí, Frases, Diálogo, Práctica, Desafío). Las unidades 11–15 (conocerse más, preguntas, dónde está, ropa y colores, opinar) toman temas del diccionario impreso del usuario, con frases y ejercicios propios.
+- Cada unidad tiene 20+ palabras y 10 frases de ejemplo (`src/data/vocabulary.ts`). Las frases tienen partes que cambian, escritas así: `Na svidenje, {gospod|gospa}!` ↔ `¡Adiós, {señor|señora}!` (persona, género, señor/señora, nombres). Con ellas se generan preguntas nuevas en cada intento (`src/lib/generate.ts`): Frases ~16, Práctica ~35, Desafío 15.
 - Armar frases: siempre sobran palabras (2 en las unidades 1–3, 3 desde la 4), sobre todo trampas parecidas (gospa/gospod, kava/kavo). La puntuación no aparece en los botones.
 - En lugar de "escuchar": "¿Cómo se dice esta frase?" (elegir entre variantes parecidas) y "Completá" (elegir la forma correcta).
 - Las opciones de los ejercicios se mezclan para que no se memoricen por posición.

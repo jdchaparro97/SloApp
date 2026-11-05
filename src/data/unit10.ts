@@ -3,7 +3,7 @@ import type { Unit } from './types'
 // Pendiente de revisión por un hablante nativo.
 export const unit10: Unit = {
   id: 10,
-  title: 'Ayuda y repaso final',
+  title: 'Ayuda y salud',
   topic: 'Dativo',
   rule: {
     title: 'Regla nueva: el dativo ("a" o "hacia" alguien)',

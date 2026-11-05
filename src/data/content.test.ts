@@ -22,8 +22,8 @@ function exerciseProblems(ex: Exercise): string[] {
 }
 
 describe('unidades', () => {
-  it('hay 10 unidades numeradas del 1 al 10', () => {
-    expect(UNITS.map((u) => u.id)).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+  it('hay 15 unidades numeradas del 1 al 15', () => {
+    expect(UNITS.map((u) => u.id)).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15])
   })
 
   for (const unit of UNITS.filter((u) => u.sections)) {

@@ -40,6 +40,27 @@ export const TRAVEL_GROUPS: TravelGroup[] = [
     ],
   },
   {
+    id: 'camino',
+    title: 'Preguntar el camino',
+    phrases: [
+      { id: 'kako-pridem', sl: 'Oprostite, kako pridem do centra?', es: 'Disculpe, ¿cómo llego al centro?' },
+      { id: 'je-dalec', sl: 'Je daleč?', es: '¿Es lejos?' },
+      { id: 'naravnost', sl: 'Pojdite naravnost do križišča.', es: 'Siga derecho hasta el cruce.' },
+      { id: 'zavijte', sl: 'Zavijte levo. / Zavijte desno.', es: 'Doble a la izquierda. / Doble a la derecha.' },
+      { id: 'nisem-od-tu', sl: 'Ne vem, nisem od tu.', es: 'No sé, no soy de acá.' },
+    ],
+  },
+  {
+    id: 'ropa',
+    title: 'En una tienda de ropa',
+    phrases: [
+      { id: 'samo-gledam', sl: 'Samo gledam, hvala.', es: 'Solo estoy mirando, gracias.' },
+      { id: 'pomerim', sl: 'Ali lahko to pomerim?', es: '¿Me lo puedo probar?' },
+      { id: 'manjso', sl: 'Imate manjšo velikost?', es: '¿Tienen un talle más chico?' },
+      { id: 'vzamem', sl: 'Vzamem to.', es: 'Me lo llevo.' },
+    ],
+  },
+  {
     id: 'emergencia',
     title: 'Emergencias',
     phrases: [
